@@ -11,32 +11,63 @@ export default defineConfig({
     vue(),
     vueDevTools(),
     VitePWA({
-      strategies: 'injectManifest',
-      srcDir: 'public',
-      filename: 'sw.js',
+      registerType: 'prompt',
+      includeAssets: ['favicon.ico'],
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,jpg}'],
+        maximumFileSizeToCacheInBytes: 5000000,
+      },
       manifest: {
         name: 'SweetAware App',
         short_name: 'SweetAware',
         description: 'SweetAware - Diabetes Awareness Application',
-        theme_color: '#ffffff',
+        theme_color: '#8B5CF6',
+        background_color: '#ffffff',
+        id: '/',
         icons: [
           {
-            src: 'src/assets/icons/icon-192x192.svg',
+            src: '/pwa-icons/icon-192.svg',
             sizes: '192x192',
             type: 'image/svg+xml',
+            purpose: 'any maskable',
           },
           {
-            src: 'src/assets/icons/icon-512x512.svg',
+            src: '/pwa-icons/icon-512.svg',
             sizes: '512x512',
             type: 'image/svg+xml',
+            purpose: 'any maskable',
+          },
+        ],
+        screenshots: [
+          {
+            src: '/screenshots/desktop1.png',
+            sizes: '1920x1080',
+            type: 'image/png',
+            form_factor: 'wide',
+          },
+          {
+            src: '/screenshots/desktop2.png',
+            sizes: '1920x1080',
+            type: 'image/png',
+            form_factor: 'wide',
+          },
+          {
+            src: '/screenshots/mobile1.png',
+            sizes: '1080x1920',
+            type: 'image/png',
+          },
+          {
+            src: '/screenshots/mobile2.png',
+            sizes: '1080x1920',
+            type: 'image/png',
           },
         ],
         start_url: '/',
         display: 'standalone',
-        background_color: '#ffffff',
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg}'],
+        globPatterns: ['**/*.{js,css,html,ico,svg}'],
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,

@@ -3,8 +3,10 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Profile Card -->
-        <div class="lg:col-span-1">
-          <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+        <div class="lg:col-span-1" data-aos="fade-right" data-aos-delay="100">
+          <div
+            class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden transform hover:shadow-xl transition-all duration-300"
+          >
             <!-- Profile Header -->
             <div class="relative h-48 bg-purple-600">
               <div class="absolute -bottom-20 left-1/2 transform -translate-x-1/2">
@@ -218,7 +220,11 @@
           <!-- Statistics Cards -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Total Predictions -->
-            <div class="bg-blue-50 dark:bg-blue-900 p-6 rounded-lg">
+            <div
+              class="bg-blue-50 dark:bg-blue-900 p-6 rounded-lg transform transition-all duration-300 hover:scale-105"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
               <div class="flex justify-between items-start">
                 <div>
                   <p class="text-blue-600 dark:text-blue-200 font-medium">Total Predictions</p>
@@ -234,7 +240,11 @@
             </div>
 
             <!-- High Risk -->
-            <div class="bg-red-50 dark:bg-red-900 p-6 rounded-lg">
+            <div
+              class="bg-red-50 dark:bg-red-900 p-6 rounded-lg transform transition-all duration-300 hover:scale-105"
+              data-aos="fade-up"
+              data-aos-delay="300"
+            >
               <div class="flex justify-between items-start">
                 <div>
                   <p class="text-red-600 dark:text-red-200 font-medium">High Risk</p>
@@ -252,7 +262,11 @@
             </div>
 
             <!-- Moderate Risk -->
-            <div class="bg-yellow-50 dark:bg-yellow-900 p-6 rounded-lg">
+            <div
+              class="bg-yellow-50 dark:bg-yellow-900 p-6 rounded-lg transform transition-all duration-300 hover:scale-105"
+              data-aos="fade-up"
+              data-aos-delay="400"
+            >
               <div class="flex justify-between items-start">
                 <div>
                   <p class="text-yellow-600 dark:text-yellow-200 font-medium">Moderate Risk</p>
@@ -270,7 +284,11 @@
             </div>
 
             <!-- Low Risk -->
-            <div class="bg-green-50 dark:bg-green-900 p-6 rounded-lg">
+            <div
+              class="bg-green-50 dark:bg-green-900 p-6 rounded-lg transform transition-all duration-300 hover:scale-105"
+              data-aos="fade-up"
+              data-aos-delay="500"
+            >
               <div class="flex justify-between items-start">
                 <div>
                   <p class="text-green-600 dark:text-green-200 font-medium">Low Risk</p>
@@ -289,7 +307,11 @@
           </div>
 
           <!-- Health Information -->
-          <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <div
+            class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 transform transition-all duration-300 hover:shadow-lg"
+            data-aos="fade-up"
+            data-aos-delay="600"
+          >
             <div class="flex justify-between items-center mb-6">
               <h2 class="text-xl font-semibold dark:text-white">Health Information</h2>
               <button
@@ -406,7 +428,11 @@
           </div>
 
           <!-- Emergency Contacts -->
-          <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <div
+            class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 transform transition-all duration-300 hover:shadow-lg"
+            data-aos="fade-up"
+            data-aos-delay="700"
+          >
             <div class="flex justify-between items-center mb-6">
               <h2 class="text-xl font-semibold dark:text-white">Emergency Contacts</h2>
               <button @click="addEmergencyContact" class="text-purple-600 hover:text-purple-700">
@@ -436,7 +462,11 @@
           </div>
 
           <!-- Health Goals -->
-          <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <div
+            class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 transform transition-all duration-300 hover:shadow-lg"
+            data-aos="fade-up"
+            data-aos-delay="800"
+          >
             <div class="flex justify-between items-center mb-6">
               <h2 class="text-xl font-semibold dark:text-white">Health Goals</h2>
               <button @click="addHealthGoal" class="text-purple-600 hover:text-purple-700">
@@ -488,7 +518,11 @@
           </div>
 
           <!-- Recent Activity -->
-          <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <div
+            class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 transform transition-all duration-300 hover:shadow-lg"
+            data-aos="fade-up"
+            data-aos-delay="900"
+          >
             <div class="flex justify-between items-center mb-6">
               <h2 class="text-xl font-semibold dark:text-white">Recent Activity</h2>
               <router-link

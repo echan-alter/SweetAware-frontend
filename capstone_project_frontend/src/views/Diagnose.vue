@@ -448,6 +448,13 @@
     <div class="ml-0 md:ml-64">
       <Footer />
     </div>
+
+    <!-- Auth Required Modal -->
+    <AuthRequiredModal
+      :show="showAuthModal"
+      action="make predictions"
+      @close="showAuthModal = false"
+    />
   </div>
 </template>
 
@@ -455,14 +462,17 @@
 import { ref } from 'vue'
 import Footer from '@/components/Footer.vue'
 import Sidebar from '@/components/Sidebar.vue'
+import AuthRequiredModal from '@/components/AuthRequiredModal.vue'
 import { PredictionPresenter } from '@/presenters/PredictionPresenter'
 import { NotificationService } from '@/services/NotificationService'
+import { AuthModel } from '@/models/AuthModel'
 
 export default {
   name: 'Diagnose',
   components: {
     Footer,
     Sidebar,
+    AuthRequiredModal,
   },
   data() {
     return {
@@ -483,12 +493,20 @@ export default {
       showBmiCalculator: false,
       height: null,
       weight: null,
+      showAuthModal: false,
     }
   },
   created() {
     this.presenter = new PredictionPresenter(this)
+    this.checkAuth()
   },
   methods: {
+    checkAuth() {
+      const authModel = new AuthModel()
+      if (!authModel.isLoggedIn()) {
+        this.showAuthModal = true
+      }
+    },
     setLoading(value) {
       this.loading = value
     },
@@ -527,6 +545,14 @@ export default {
       this.weight = null
     },
     async handleSubmit() {
+      // Check if user is logged in first
+      const authModel = new AuthModel()
+      if (!authModel.isLoggedIn()) {
+        this.showAuthModal = true
+        return
+      }
+
+      // Validate required fields
       if (
         !this.predictionData.gender ||
         !this.predictionData.age ||

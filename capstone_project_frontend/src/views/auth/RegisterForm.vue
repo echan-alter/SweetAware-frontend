@@ -255,6 +255,7 @@ export default {
         this.password &&
         this.confirmPassword &&
         this.password === this.confirmPassword &&
+        this.validatePassword() &&
         this.agreeToTerms
       )
     },
@@ -262,8 +263,41 @@ export default {
   created() {
     this.presenter = new RegisterPresenter(this)
   },
+  watch: {
+    password() {
+      if (this.confirmPassword) {
+        this.validatePassword()
+      }
+    },
+    confirmPassword() {
+      if (this.password) {
+        this.validatePassword()
+      }
+    },
+  },
   methods: {
+    validatePassword() {
+      if (this.password.length < 6) {
+        this.error = 'Password must be at least 6 characters long'
+        return false
+      }
+      if (this.password !== this.confirmPassword) {
+        this.error = 'Passwords do not match'
+        return false
+      }
+      this.error = null
+      return true
+    },
     async handleRegister() {
+      if (!this.validatePassword()) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid Password',
+          text: this.error,
+        })
+        return
+      }
+
       if (!this.isFormValid) return
 
       if (this.loading) return

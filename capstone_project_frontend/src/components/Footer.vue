@@ -28,15 +28,15 @@
         <p class="text-gray-300 mb-6">
           Subscribe to our newsletter for the latest health tips, articles, and updates.
         </p>
-        <form class="flex gap-4">
+        <form class="flex flex-col sm:flex-row gap-4">
           <input
             type="email"
             placeholder="Enter your email"
-            class="flex-1 px-4 py-3 bg-gray-700/40 backdrop-blur-sm rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 border border-gray-500/30"
+            class="w-full px-4 py-3 bg-gray-700/40 backdrop-blur-sm rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 border border-gray-500/30"
           />
           <button
             type="submit"
-            class="px-8 py-3 bg-purple-600/90 hover:bg-purple-700 text-white rounded-lg transition-colors backdrop-blur-sm"
+            class="w-full sm:w-auto px-8 py-3 bg-purple-600/90 hover:bg-purple-700 text-white rounded-lg transition-colors backdrop-blur-sm whitespace-nowrap"
           >
             Subscribe
           </button>

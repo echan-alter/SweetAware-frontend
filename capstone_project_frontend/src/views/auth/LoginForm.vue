@@ -209,7 +209,7 @@ export default {
     setLoading(isLoading) {
       this.loading = isLoading
     },
-    onLoginSuccess(data) {
+    async onLoginSuccess(data) {
       // If remember me is checked, save the email
       if (this.rememberMe) {
         localStorage.setItem('rememberedEmail', this.email)
@@ -220,17 +220,21 @@ export default {
       // Emit auth state change event
       eventBus.emit('auth-state-changed', true)
 
-      // Show success message
-      Swal.fire({
+      // Show success message and wait for it to complete
+      await Swal.fire({
         icon: 'success',
         title: 'Welcome back!',
         text: 'Login successful',
-        timer: 1500,
+        timer: 1000,
         showConfirmButton: false,
       })
 
-      // After successful login, redirect to home
-      this.$router.push('/')
+      // Give a small delay to ensure state is updated
+      await new Promise((resolve) => setTimeout(resolve, 100))
+
+      // Navigate to home and force a refresh
+      await this.$router.push('/')
+      window.location.reload()
     },
     onLoginError(errorMessage) {
       this.error = errorMessage

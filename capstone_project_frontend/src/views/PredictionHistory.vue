@@ -276,6 +276,13 @@
       :prediction="selectedPrediction"
       @close="showModal = false"
     />
+
+    <!-- Auth Required Modal -->
+    <AuthRequiredModal
+      :show="showAuthModal"
+      action="view prediction history"
+      @close="showAuthModal = false"
+    />
   </div>
 </template>
 
@@ -284,6 +291,8 @@ import { PredictionPresenter } from '@/presenters/PredictionPresenter'
 import Footer from '@/components/Footer.vue'
 import Sidebar from '@/components/Sidebar.vue'
 import PredictionDetailModal from '@/components/PredictionDetailModal.vue'
+import AuthRequiredModal from '@/components/AuthRequiredModal.vue'
+import { AuthModel } from '@/models/AuthModel'
 
 export default {
   name: 'PredictionHistory',
@@ -291,6 +300,7 @@ export default {
     Footer,
     Sidebar,
     PredictionDetailModal,
+    AuthRequiredModal,
   },
   data() {
     return {
@@ -300,6 +310,7 @@ export default {
       itemsPerPage: 10,
       showModal: false,
       selectedPrediction: null,
+      showAuthModal: false,
     }
   },
   computed: {
@@ -347,9 +358,17 @@ export default {
   },
   created() {
     this.presenter = new PredictionPresenter(this)
-    this.fetchPredictions()
+    this.checkAuth()
   },
   methods: {
+    checkAuth() {
+      const authModel = new AuthModel()
+      if (!authModel.isLoggedIn()) {
+        this.showAuthModal = true
+      } else {
+        this.fetchPredictions()
+      }
+    },
     setLoading(value) {
       this.loading = value
     },

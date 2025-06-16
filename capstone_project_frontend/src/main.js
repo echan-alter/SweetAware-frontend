@@ -6,6 +6,20 @@ import './assets/main.css'
 import { useDarkModeStore } from './stores/darkMode'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+import { registerSW } from 'virtual:pwa-register'
+
+// Initialize service worker
+const updateSW = registerSW({
+  onNeedRefresh() {
+    // Show a prompt to user about new version available
+    if (confirm('New content available. Reload?')) {
+      updateSW()
+    }
+  },
+  onOfflineReady() {
+    console.log('App ready to work offline')
+  },
+})
 
 // Initialize AOS
 AOS.init({
