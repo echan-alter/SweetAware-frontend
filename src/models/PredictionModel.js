@@ -2,7 +2,7 @@ import axiosInstance from '../services/AxiosService'
 
 export class PredictionModel {
   constructor() {
-    this.baseURL = 'https://sweetaware.up.railway.app/'
+    this.baseURL = 'https://sweetawareapi-wby9121y.b4a.run/'
   }
 
   async createPrediction(predictionData) {

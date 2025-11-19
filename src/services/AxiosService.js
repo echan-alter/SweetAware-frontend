@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { AuthModel } from '../models/AuthModel'
 
-const baseURL = 'https://sweetaware.up.railway.app/'
+const baseURL = 'https://sweetawareapi-wby9121y.b4a.run/'
 
 // Create axios instance with default config
 const axiosInstance = axios.create({

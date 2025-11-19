@@ -1,6 +1,6 @@
 class ArticleModel {
   constructor() {
-    this.baseUrl = 'https://sweetaware.up.railway.app/api/articles'
+    this.baseUrl = 'https://sweetawareapi-wby9121y.b4a.run//api/articles'
   }
 
   async getArticles(topic = 'diabetes', limit = 10) {
