@@ -2,7 +2,7 @@ import axiosInstance from '../services/AxiosService'
 
 export class AuthModel {
   constructor() {
-    this.baseURL = 'https://sweetawareapi-wby9121y.b4a.run/'
+    this.baseURL = import.meta.env.VITE_API_BASE_URL
   }
   async login(credentials) {
     try {

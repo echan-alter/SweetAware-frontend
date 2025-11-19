@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { AuthModel } from '../models/AuthModel'
 
-const baseURL = 'https://sweetawareapi-wby9121y.b4a.run/'
+const baseURL = import.meta.env.VITE_API_BASE_URL
 
 // Create axios instance with default config
 const axiosInstance = axios.create({

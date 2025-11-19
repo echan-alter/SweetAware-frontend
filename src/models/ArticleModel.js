@@ -1,6 +1,6 @@
 class ArticleModel {
   constructor() {
-    this.baseUrl = 'https://sweetawareapi-wby9121y.b4a.run//api/articles'
+    this.baseUrl = `${import.meta.env.VITE_API_BASE_URL}/api/articles`
   }
 
   async getArticles(topic = 'diabetes', limit = 10) {
