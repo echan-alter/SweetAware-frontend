@@ -74,10 +74,11 @@
           <p class="text-gray-600 dark:text-gray-400">Memuat artikel...</p>
         </div>
       </div>
+      
       <!-- Articles Grid -->
       <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
-          v-for="(article, index) in filteredArticles"
+          v-for="(article, index) in displayedArticles"
           :key="article.url"
           class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1"
           :data-aos="'zoom-in'"
@@ -194,8 +195,9 @@
           </div>
         </div>
       </div>
+      
       <!-- No Results Message -->
-      <div v-if="!loading && filteredArticles.length === 0" class="text-center py-12">
+      <div v-if="!loading && displayedArticles.length === 0" class="text-center py-12">
         <div
           class="inline-flex items-center justify-center w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full mb-4"
         >
@@ -210,16 +212,19 @@
       </div>
 
       <!-- Load More Button -->
-      <div v-if="articles.length > 0 && !loading" class="mt-12 text-center">
+      <div v-if="displayedArticles.length > 0 && !loading && hasMoreArticles" class="mt-12 text-center">
         <button
           @click="loadMore"
-          class="inline-flex items-center gap-2 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl border border-gray-200 dark:border-gray-700 transform hover:scale-105"
+          :disabled="loadingMore"
+          class="inline-flex items-center gap-2 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl border border-gray-200 dark:border-gray-700 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span>Muat Lebih Banyak</span>
-          <i class="fas fa-arrow-down text-sm"></i>
+          <span v-if="!loadingMore">Muat Lebih Banyak</span>
+          <span v-else>Memuat...</span>
+          <i v-if="!loadingMore" class="fas fa-arrow-down text-sm"></i>
+          <i v-else class="fas fa-spinner fa-spin text-sm"></i>
         </button>
         <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
-          Menampilkan {{ filteredArticles.length }} dari {{ articles.length }} artikel
+          Menampilkan {{ displayedArticles.length }} dari {{ totalAvailableArticles }} artikel
         </p>
       </div>
 
@@ -245,7 +250,7 @@ interface Article {
   source: string
   publishedAt: string
   summary: string
-  category?: string // Optional field
+  category?: string
   likes?: number
   views?: number
   isLiked?: boolean
@@ -259,8 +264,11 @@ export default defineComponent({
       presenter: new ArticlePresenter(),
       articles: [] as Article[],
       loading: false,
+      loadingMore: false,
       error: null as string | null,
       currentLimit: 10,
+      displayCount: 6,
+      incrementCount: 3,
       searchQuery: '',
       selectedCategory: 'Semua',
       categories: ['Semua', 'Diabetes', 'Kesehatan', 'Gaya Hidup', 'Nutrisi'],
@@ -289,8 +297,22 @@ export default defineComponent({
         )
       }
 
+      console.log('Filtered Articles:', filtered.length)
       return filtered
     },
+    displayedArticles(): Article[] {
+      const displayed = this.filteredArticles.slice(0, this.displayCount)
+      console.log('Displayed Articles:', displayed.length, '/ Display Count:', this.displayCount)
+      return displayed
+    },
+    hasMoreArticles(): boolean {
+      const hasMore = this.displayCount < this.filteredArticles.length
+      console.log('Has More Articles:', hasMore, '(displayCount:', this.displayCount, ', filteredArticles:', this.filteredArticles.length, ')')
+      return hasMore
+    },
+    totalAvailableArticles(): number {
+      return this.filteredArticles.length
+    }
   },
   created() {
     this.presenter.setView(this)
@@ -321,15 +343,43 @@ export default defineComponent({
       const target = event.target as HTMLImageElement
       target.src = '/src/assets/images/illustration.png'
     },
-    loadMore() {
-      this.currentLimit += 10
-      this.loadArticles()
+    async loadMore() {
+      console.log('=== Load More Clicked ===')
+      console.log('Current displayCount:', this.displayCount)
+      console.log('Filtered articles length:', this.filteredArticles.length)
+      console.log('Articles from API length:', this.articles.length)
+      
+      // Jika masih ada artikel yang belum ditampilkan dari data yang sudah ada
+      if (this.displayCount < this.filteredArticles.length) {
+        console.log('Showing more from existing articles')
+        this.displayCount += this.incrementCount
+        console.log('New displayCount:', this.displayCount)
+      } 
+      // Jika sudah menampilkan semua, fetch artikel lebih banyak dari API
+      else {
+        console.log('Fetching more articles from API')
+        this.loadingMore = true
+        this.currentLimit += 10
+        try {
+          await this.loadArticles()
+          this.displayCount += this.incrementCount
+          console.log('New displayCount after fetch:', this.displayCount)
+        } catch (error) {
+          this.error = 'Gagal memuat artikel tambahan'
+          console.error('Load more error:', error)
+        } finally {
+          this.loadingMore = false
+        }
+      }
     },
     handleSearch() {
-      // Debounce implementation could be added here if needed
+      // Reset display count when searching
+      this.displayCount = 6
     },
     filterByCategory(category: string) {
       this.selectedCategory = category
+      // Reset display count when filtering
+      this.displayCount = 6
     },
     scrollToTop() {
       window.scrollTo({
@@ -345,12 +395,10 @@ export default defineComponent({
         article.likes = (article.likes || 1) - 1
         article.isLiked = false
       }
-      // In a real app, you would call the API here
       this.presenter.updateArticle(article)
     },
     toggleBookmark(article: Article) {
       article.isBookmarked = !article.isBookmarked
-      // In a real app, you would call the API here
       this.presenter.updateArticle(article)
     },
     async shareArticle(article: Article) {
@@ -365,14 +413,12 @@ export default defineComponent({
           console.error('Error sharing:', err)
         }
       } else {
-        // Fallback for browsers that don't support the Web Share API
         this.copyToClipboard(article.url)
       }
     },
     copyToClipboard(text: string) {
       navigator.clipboard.writeText(text).then(
         () => {
-          // Show success message (in a real app you would use a toast notification)
           alert('Link copied to clipboard!')
         },
         (err) => {
