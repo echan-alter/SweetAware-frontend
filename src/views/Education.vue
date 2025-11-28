@@ -1,5 +1,3 @@
-# Edukasi Diabetes - SweetAware
-
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,7 +13,7 @@
 
       <!-- Quick Links Section -->
       <div
-        class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12"
+        class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
         data-aos="fade-up"
         data-aos-delay="100"
       >
@@ -30,40 +28,6 @@
           <i :class="section.icon + ' text-purple-600'"></i>
           <span class="font-medium text-gray-900 dark:text-white">{{ section.title }}</span>
         </button>
-      </div>
-
-      <!-- Learning Modules Section -->
-      <div id="learning-modules" class="mb-16">
-        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8" data-aos="fade-up">
-          Learning Modules
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div
-            v-for="(module, index) in learningModules"
-            :key="index"
-            class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden"
-            :data-aos="'zoom-in'"
-            :data-aos-delay="100 * (index + 1)"
-          >
-            <div class="h-48 bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
-              <i :class="module.icon + ' text-6xl text-purple-600 dark:text-purple-400'"></i>
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                {{ module.title }}
-              </h3>
-              <p class="text-gray-600 dark:text-gray-400 mb-4">
-                {{ module.description }}
-              </p>
-              <button
-                @click="startModule(module)"
-                class="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 transition-colors"
-              >
-                Start Learning
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- Interactive Tools Section -->
@@ -147,31 +111,9 @@
         </div>
       </div>
 
-      <!-- Resources Section -->
-      <div id="resources" class="mb-16">
-        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Helpful Resources</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <a
-            v-for="(resource, index) in resources"
-            :key="index"
-            :href="resource.url"
-            target="_blank"
-            class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow"
-          >
-            <div class="flex items-center mb-4">
-              <i :class="resource.icon + ' text-2xl text-purple-600 mr-4'"></i>
-              <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                {{ resource.title }}
-              </h3>
-            </div>
-            <p class="text-gray-600 dark:text-gray-400">{{ resource.description }}</p>
-          </a>
-        </div>
-      </div>
-
       <!-- FAQ Section -->
       <div id="faq" class="mb-16">
-        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8" data-aos="fade-up">
           Frequently Asked Questions
         </h2>
         <div class="space-y-4">
@@ -179,6 +121,8 @@
             v-for="(faq, index) in faqs"
             :key="index"
             class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden"
+            :data-aos="'fade-up'"
+            :data-aos-delay="50 * (index + 1)"
           >
             <button
               @click="faq.isOpen = !faq.isOpen"
@@ -210,50 +154,8 @@ export default defineComponent({
   name: 'Education',
   setup() {
     const quickLinks = [
-      { id: 'learning-modules', title: 'Learning Modules', icon: 'fas fa-book' },
       { id: 'interactive-tools', title: 'Interactive Tools', icon: 'fas fa-tools' },
-      { id: 'resources', title: 'Resources', icon: 'fas fa-link' },
       { id: 'faq', title: 'FAQ', icon: 'fas fa-question-circle' },
-    ]
-
-    const learningModules = [
-      {
-        title: 'Understanding Diabetes',
-        description: 'Learn about different types of diabetes, causes, and risk factors.',
-        icon: 'fas fa-book-medical',
-      },
-      {
-        title: 'Healthy Living',
-        description: 'Discover lifestyle changes, diet tips, and exercise recommendations.',
-        icon: 'fas fa-heart',
-      },
-      {
-        title: 'Managing Diabetes',
-        description:
-          'Learn about medication, monitoring blood sugar, and preventing complications.',
-        icon: 'fas fa-clipboard-check',
-      },
-    ]
-
-    const resources = [
-      {
-        title: 'Diet Guidelines',
-        description: 'Comprehensive guide for diabetes-friendly meal planning.',
-        icon: 'fas fa-utensils',
-        url: '#',
-      },
-      {
-        title: 'Exercise Plans',
-        description: 'Safe and effective workout routines for diabetics.',
-        icon: 'fas fa-running',
-        url: '#',
-      },
-      {
-        title: 'Support Groups',
-        description: 'Connect with others in the diabetes community.',
-        icon: 'fas fa-users',
-        url: '#',
-      },
     ]
 
     const faqs = ref([
@@ -275,6 +177,18 @@ export default defineComponent({
           'Generally, limit sugary foods, refined carbohydrates, sweetened beverages, and foods high in saturated fats. Always consult your healthcare provider for personalized advice.',
         isOpen: false,
       },
+      {
+        question: 'Can diabetes be prevented?',
+        answer:
+          'Type 2 diabetes can often be prevented or delayed through healthy lifestyle choices including maintaining a healthy weight, regular physical activity, and a balanced diet.',
+        isOpen: false,
+      },
+      {
+        question: 'What is a normal blood sugar level?',
+        answer:
+          'Normal fasting blood sugar is less than 100 mg/dL. Two hours after eating, it should be less than 140 mg/dL. However, target ranges may vary based on individual circumstances.',
+        isOpen: false,
+      },
     ])
 
     // Interactive Tools Data
@@ -285,6 +199,9 @@ export default defineComponent({
       { id: 2, name: 'Apple', carbsPer100g: 14 },
       { id: 3, name: 'Bread', carbsPer100g: 49 },
       { id: 4, name: 'Potato', carbsPer100g: 17 },
+      { id: 5, name: 'Banana', carbsPer100g: 23 },
+      { id: 6, name: 'Pasta', carbsPer100g: 31 },
+      { id: 7, name: 'Oatmeal', carbsPer100g: 12 },
     ]
 
     const calculateCarbs = computed(() => {
@@ -296,12 +213,19 @@ export default defineComponent({
     const measurementTime = ref('before-breakfast')
 
     const logBloodSugar = () => {
-      // Implement blood sugar logging logic here
+      if (!bloodSugar.value) {
+        alert('Please enter a blood sugar level')
+        return
+      }
+
       console.log('Logging blood sugar:', {
         level: bloodSugar.value,
         time: measurementTime.value,
         date: new Date(),
       })
+
+      alert(`Blood sugar logged: ${bloodSugar.value} mg/dL at ${measurementTime.value}`)
+
       // Reset form
       bloodSugar.value = ''
       measurementTime.value = 'before-breakfast'
@@ -314,16 +238,8 @@ export default defineComponent({
       }
     }
 
-    const startModule = (module) => {
-      // Implement module navigation logic here
-      console.log('Starting module:', module.title)
-      // You can add navigation or modal opening logic here
-    }
-
     return {
       quickLinks,
-      learningModules,
-      resources,
       faqs,
       selectedFood,
       portionSize,
@@ -333,7 +249,6 @@ export default defineComponent({
       measurementTime,
       logBloodSugar,
       scrollToSection,
-      startModule,
     }
   },
 })
